@@ -1,0 +1,157 @@
+{% extends "base.html" %} {% block title %}Sponsor Dashboard{% endblock %} {%
+block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Side: Campaign and Ad Request Options (7 parts) -->
+        <div class="col-md-7">
+            <h1 class="text-center dashboard-heading">
+                {{current_user.username}}'s dashboard
+            </h1>
+
+            <h3>Your Campaigns</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for campaign in campaigns %}
+                    <tr>
+                        <td>{{ campaign.name }}</td>
+                        <td>
+                            {{ campaign.description }}{% if
+                            campaign.description|length > 50 %}...{% endif %}
+                        </td>
+                        <td>
+                            <div style="display: flex; gap: 10px">
+                                <a
+                                    href="{{ url_for('main.update_campaign', campaign_id=campaign.id) }}"
+                                    class="btn btn-warning"
+                                    >Edit</a
+                                >
+                                <form
+                                    action="{{ url_for('main.delete_campaign', campaign_id=campaign.id) }}"
+                                    method="POST"
+                                    style="display: inline"
+                                >
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger"
+                                    >
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a
+                href="{{ url_for('main.view_all_campaigns') }}"
+                class="btn btn-secondary"
+                >View All Campaigns</a
+            >
+            <a
+                href="{{ url_for('main.create_campaign') }}"
+                class="btn btn-primary"
+                >Create New Campaign</a
+            >
+
+            <h3>Your Ad Requests</h3>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Campaign</th>
+                        <th>Influencer</th>
+                        <th>Payment Amount</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for ad_request in ad_requests %}
+                    <tr>
+                        <td>{{ ad_request.campaign.name }}</td>
+                        <td>{{ ad_request.influencer.name }}</td>
+                        <td>{{ ad_request.payment_amount }}</td>
+                        <td>{{ ad_request.status }}</td>
+                        <td>
+                            <div style="display: flex; gap: 10px">
+                                <!-- gap adds spacing between buttons -->
+                                <a
+                                    href="{{ url_for('main.update_ad_request', ad_request_id=ad_request.id) }}"
+                                    class="btn btn-warning"
+                                    >Edit</a
+                                >
+                                <form
+                                    action="{{ url_for('main.delete_ad_request', ad_request_id=ad_request.id) }}"
+                                    method="POST"
+                                    style="display: inline"
+                                >
+                                    <button
+                                        type="submit"
+                                        class="btn btn-danger"
+                                    >
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <a
+                href="{{ url_for('main.view_all_ad_requests') }}"
+                class="btn btn-secondary"
+                >View All Ad Requests</a
+            >
+
+            <a
+                href="{{ url_for('main.create_ad_request') }}"
+                class="btn btn-primary"
+                >Create New Ad Request</a
+            >
+        </div>
+
+        <!-- Right Side: User Info and Stats (3 parts) -->
+        <div class="col-md-5">
+            <h3 class="dashboard-heading">User Info</h3>
+            <p><strong>Name:</strong> {{ current_user.sponsor.name }}</p>
+            <p>
+                <strong>Company:</strong> {{ current_user.sponsor.company_name
+                }}
+            </p>
+            <p>
+                <strong>Industry:</strong> {{ current_user.sponsor.industry }}
+            </p>
+            <!-- Button to Update Profile -->
+            <button
+                class="btn btn-primary mt-3"
+                onclick="location.href='{{ url_for('main.complete_sponsor_profile') }}'"
+            >
+                Update Profile
+            </button>
+
+            <!-- Buttons to Search Influencers and View Public Campaigns -->
+            <div class="mt-5">
+                <h3>Explore</h3>
+                <a
+                    href="{{ url_for('main.search_influencers') }}"
+                    class="btn btn-secondary mt-3 mb-3"
+                    >Search Influencers</a
+                >
+                <a
+                    href="{{ url_for('main.search_public_campaigns') }}"
+                    class="btn btn-secondary mt-3 mb-3"
+                    >View Public Campaigns</a
+                >
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

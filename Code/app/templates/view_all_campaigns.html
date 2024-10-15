@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %}All Campaigns{% endblock %} {% block
+content %}
+<div class="container mt-5">
+    <h1 class="text-center">All Campaigns</h1>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campaign in campaigns %}
+            <tr>
+                <td>{{ campaign.name }}</td>
+                <td>{{ campaign.description }}</td>
+                <td>
+                    <a
+                        href="{{ url_for('main.update_campaign', campaign_id=campaign.id) }}"
+                        class="btn btn-warning"
+                        >Edit</a
+                    >
+                    <form
+                        action="{{ url_for('main.delete_campaign', campaign_id=campaign.id) }}"
+                        method="POST"
+                        style="display: inline"
+                    >
+                        <button type="submit" class="btn btn-danger">
+                            Delete
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

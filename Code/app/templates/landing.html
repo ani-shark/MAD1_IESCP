@@ -1,0 +1,19 @@
+{% extends "base.html" %} {% block title %}Home{% endblock %} {% block content
+%}
+<div class="landing-container">
+    <div class="hero-section text-center">
+        <h1 class="display-4">
+            Influencer Engagement and Sponsor Coordination Platform
+        </h1>
+        <p class="lead">
+            Connect with sponsors and influencers to boost your marketing
+            campaigns and gain opportunities.
+        </p>
+        <hr class="my-4" />
+        <p>Join our platform and start making connections today!</p>
+        <a href="{{ url_for('main.register') }}" class="btn btn-primary btn-lg"
+            >Get Started</a
+        >
+    </div>
+</div>
+{% endblock %}

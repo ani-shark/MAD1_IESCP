@@ -1,0 +1,77 @@
+{% extends "base.html" %} {% block title %}Influencer Dashboard{% endblock %} {%
+block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-7">
+            <h1 class="text-center dashboard-heading">
+                {{current_user.username}}'s dashboard
+            </h1>
+            <h3>Accepted Ad Requests</h3>
+            {% for ad_request in accepted_ad_requests %}
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">{{ ad_request.campaign.name }}</h5>
+                    <p class="card-text">{{ ad_request.requirements }}</p>
+                    <p class="card-text">
+                        <small class="text-muted"
+                            >Pay: {{ ad_request.payment_amount }}</small
+                        >
+                    </p>
+                </div>
+            </div>
+            {% else %}
+            <p>No accepted ad requests.</p>
+            {% endfor %}
+            <button
+                class="btn btn-primary mt-3"
+                onclick="location.href='{{ url_for('main.influencer_ad_requests') }}'"
+            >
+                View Pending Ad Requests
+            </button>
+            <button
+                class="btn btn-secondary mt-3"
+                onclick="location.href='{{ url_for('main.search_public_campaigns') }}'"
+            >
+                Search Public Campaigns
+            </button>
+            <!-- Search Influencers Button -->
+            <button
+                class="btn btn-secondary mt-3"
+                onclick="location.href='{{ url_for('main.search_influencers') }}'"
+            >
+                Search Influencers
+            </button>
+        </div>
+        <!-- Right Side: User Info and Stats (3 parts) -->
+        <div class="col-md-5">
+            <h3 class="dashboard-heading">User Info</h3>
+            <img
+                src="{{ current_user.influencer.profile_picture }}"
+                alt="Profile Picture"
+                class="img-fluid mb-3"
+            />
+            <p><strong>Name:</strong> {{ current_user.influencer.name }}</p>
+            <p>
+                <strong>Category:</strong> {{ current_user.influencer.category
+                }}
+            </p>
+            <p><strong>Niche:</strong> {{ current_user.influencer.niche }}</p>
+            <p><strong>Reach:</strong> {{ current_user.influencer.reach }}</p>
+            <p>
+                <strong>Instagram:</strong>
+                <a
+                    href="https://www.instagram.com/{{ current_user.influencer.instagram_handle }}"
+                    target="_blank"
+                    >{{ current_user.influencer.instagram_handle }}</a
+                >
+            </p>
+            <button
+                class="btn btn-primary mt-3"
+                onclick="location.href='{{ url_for('main.update_influencer_profile') }}'"
+            >
+                Update Profile
+            </button>
+        </div>
+    </div>
+</div>
+{% endblock %}

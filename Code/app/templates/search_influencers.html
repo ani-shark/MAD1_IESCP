@@ -1,0 +1,56 @@
+{% extends "base.html" %} {% block title %}Search Influencers{% endblock %} {%
+block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Search Influencers</h1>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <form method="POST">
+                {{ form.hidden_tag() }}
+                <div class="form-group">
+                    {{ form.category.label(class="form-control-label") }} {{
+                    form.category(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.min_reach.label(class="form-control-label") }} {{
+                    form.min_reach(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.max_reach.label(class="form-control-label") }} {{
+                    form.max_reach(class="form-control") }}
+                </div>
+                <div class="form-group">
+                    {{ form.submit(class="btn btn-primary") }}
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <h3 class="mt-5">Results</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Category</th>
+                <th>Reach</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for influencer in influencers %}
+            <tr>
+                <td>{{ influencer.name }}</td>
+                <td>{{ influencer.category }}</td>
+                <td>{{ influencer.reach }}</td>
+                <td>
+                    <a
+                        href="{{ url_for('main.view_influencer_profile', influencer_id=influencer.id) }}"
+                        class="btn btn-info"
+                        >View Profile</a
+                    >
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

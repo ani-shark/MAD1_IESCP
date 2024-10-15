@@ -1,0 +1,161 @@
+{% extends "base.html" %} {% block title %}Admin Dashboard{% endblock %} {%
+block content %}
+<div class="container mt-5">
+    <h1 class="text-center">Admin Dashboard</h1>
+
+    <div class="row mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3>User Statistics</h3>
+                    <p>Total Users: {{ total_users }}</p>
+                    <p>Total Influencers: {{ total_influencers }}</p>
+                    <p>Total Sponsors: {{ total_sponsors }}</p>
+                    <p>Active Influencers: {{ active_influencers }}</p>
+                    <p>Active Sponsors: {{ active_sponsors }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Campaign Statistics</h3>
+                    <p>Total Campaigns: {{ total_campaigns }}</p>
+                    <p>Active Campaigns: {{ active_campaigns }}</p>
+                    <p>Inactive Campaigns: {{ inactive_campaigns }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3>Ad Request Statistics</h3>
+                    <p>Total Ad Requests: {{ total_ad_requests }}</p>
+                    <p>Pending Ad Requests: {{ pending_ad_requests }}</p>
+                    <p>Accepted Ad Requests: {{ accepted_ad_requests }}</p>
+                    <p>Rejected Ad Requests: {{ rejected_ad_requests }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="mt-5">Manage Users</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Username</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.role }}</td>
+                <td>
+                    <form
+                        action="{{ url_for('main.hold_user', user_id=user.id) }}"
+                        method="POST"
+                        style="display: inline"
+                    >
+                        <button
+                            type="submit"
+                            class="btn {{ 'btn-danger' if user.is_on_hold else 'btn-warning' }}"
+                        >
+                            {{ 'Release' if user.is_on_hold else 'Hold' }}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="mt-5">Manage Campaigns</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Budget</th>
+                <th>Visibility</th>
+                <th>Category</th>
+                <th>Goals</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for campaign in campaigns %}
+            <tr>
+                <td>{{ campaign.name }}</td>
+                <td>{{ campaign.description }}</td>
+                <td>{{ campaign.start_date }}</td>
+                <td>{{ campaign.end_date }}</td>
+                <td>{{ campaign.budget }}</td>
+                <td>{{ campaign.visibility }}</td>
+                <td>{{ campaign.category }}</td>
+                <td>{{ campaign.goals }}</td>
+                <td>
+                    <form
+                        action="{{ url_for('main.hold_campaign', campaign_id=campaign.id) }}"
+                        method="POST"
+                        style="display: inline"
+                    >
+                        <button
+                            type="submit"
+                            class="btn {{ 'btn-danger' if campaign.is_on_hold else 'btn-warning' }}"
+                        >
+                            {{ 'Release' if campaign.is_on_hold else 'Hold' }}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2 class="mt-5">Manage Ad Requests</h2>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Campaign</th>
+                <th>Messages</th>
+                <th>Requirements</th>
+                <th>Payment Amount</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ad_request in ad_requests %}
+            <tr>
+                <td>{{ ad_request.campaign.name }}</td>
+                <td>{{ ad_request.messages }}</td>
+                <td>{{ ad_request.requirements }}</td>
+                <td>{{ ad_request.payment_amount }}</td>
+                <td>{{ ad_request.status }}</td>
+                <td>
+                    <form
+                        action="{{ url_for('main.hold_ad_request', ad_request_id=ad_request.id) }}"
+                        method="POST"
+                        style="display: inline"
+                    >
+                        <button
+                            type="submit"
+                            class="btn {{ 'btn-danger' if ad_request.is_on_hold else 'btn-warning' }}"
+                        >
+                            {{ 'Release' if ad_request.is_on_hold else 'Hold' }}
+                        </button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

@@ -1,0 +1,28 @@
+{% extends "base.html" %} {% block title %}{{ influencer.name }}'s Profile{%
+endblock %} {% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img
+                src="{{ influencer.profile_picture }}"
+                alt="Profile Picture"
+                class="img-fluid mb-3"
+            />
+        </div>
+        <div class="col-md-8">
+            <p><strong>Name:</strong> {{ influencer.name }}</p>
+            <p><strong>Category:</strong> {{ influencer.category }}</p>
+            <p><strong>Niche:</strong> {{ influencer.niche }}</p>
+            <p><strong>Reach:</strong> {{ influencer.reach }}</p>
+            <p>
+                <strong>Instagram:</strong>
+                <a
+                    href="https://www.instagram.com/{{ influencer.instagram_handle }}"
+                    target="_blank"
+                    >{{ influencer.instagram_handle }}</a
+                >
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock %}

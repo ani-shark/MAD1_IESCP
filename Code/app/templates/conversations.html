@@ -1,0 +1,35 @@
+{% extends "base.html" %} {% block title %}Conversations{% endblock %} {% block
+content %}
+<div class="container mt-5">
+    <h1 class="text-center">Conversations</h1>
+
+    <!-- Form to Start a New Conversation -->
+    <form method="POST" class="mb-4">
+        <div class="form-group">
+            <label for="recipient">Start a Conversation with:</label>
+            <select name="recipient_id" class="form-control">
+                {% for user in users %}
+                <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">
+            Start Conversation
+        </button>
+    </form>
+
+    <!-- List of Existing Conversations -->
+    <ul class="list-group">
+        {% for conversation in conversations %}
+        <li class="list-group-item">
+            <a
+                href="{{ url_for('main.chat', conversation_id=conversation.id) }}"
+            >
+                {{ conversation.user1.username if conversation.user1.id !=
+                current_user.id else conversation.user2.username }}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
